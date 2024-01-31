@@ -1,0 +1,12 @@
+select employee_id,name,
+(select count(f.reports_to) 
+    from Employees e
+    inner join Employees f
+    on e.employee_id = f.reports_to
+    group by e.employee_id) as reports_count,
+    (select round(avg(f.age)) 
+    from Employees e
+    inner join Employees f
+    on e.employee_id = f.reports_to ) as average_age
+from Employees
+group by employee_id;
